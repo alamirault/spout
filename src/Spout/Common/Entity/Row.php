@@ -21,7 +21,7 @@ class Row
     /**
      * Row constructor.
      * @param Cell[] $cells
-     * @param Style|null $style
+     * @param Style|null|bool $style
      */
     public function __construct(array $cells, $style)
     {
@@ -112,7 +112,12 @@ class Row
      */
     public function setStyle($style)
     {
-        $this->style = $style ?: new Style();
+        if($style === false){
+            $this->style = null;
+        }
+        else{
+            $this->style = $style ?: new Style();
+        }
 
         return $this;
     }

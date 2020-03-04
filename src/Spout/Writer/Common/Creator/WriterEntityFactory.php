@@ -83,20 +83,20 @@ class WriterEntityFactory
 
     /**
      * @param Cell[] $cells
-     * @param Style|null $rowStyle
+     * @param Style|null|bool $rowStyle
      * @return Row
      */
-    public static function createRow(array $cells = [], Style $rowStyle = null)
+    public static function createRow(array $cells = [], $rowStyle = null)
     {
         return new Row($cells, $rowStyle);
     }
 
     /**
      * @param array $cellValues
-     * @param Style|null $rowStyle
+     * @param Style|null|bool $rowStyle
      * @return Row
      */
-    public static function createRowFromArray(array $cellValues = [], Style $rowStyle = null)
+    public static function createRowFromArray(array $cellValues = [], $rowStyle = null)
     {
         $cells = \array_map(function ($cellValue) {
             return new Cell($cellValue);
@@ -107,10 +107,10 @@ class WriterEntityFactory
 
     /**
      * @param mixed $cellValue
-     * @param Style|null $cellStyle
+     * @param Style|null|bool $cellStyle
      * @return Cell
      */
-    public static function createCell($cellValue, Style $cellStyle = null)
+    public static function createCell($cellValue, $cellStyle = null)
     {
         return new Cell($cellValue, $cellStyle);
     }

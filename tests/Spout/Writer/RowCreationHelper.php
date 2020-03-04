@@ -13,19 +13,20 @@ trait RowCreationHelper
 {
     /**
      * @param array $cellValues
+     * @param Style|null|bool $rowStyle
      * @return Row
      */
-    protected function createRowFromValues(array $cellValues)
+    protected function createRowFromValues(array $cellValues, $rowStyle = null)
     {
-        return $this->createStyledRowFromValues($cellValues, null);
+        return $this->createStyledRowFromValues($cellValues, $rowStyle);
     }
 
     /**
      * @param array $cellValues
-     * @param Style|null $rowStyle
+     * @param Style|null|false $rowStyle
      * @return Row
      */
-    protected function createStyledRowFromValues(array $cellValues, Style $rowStyle = null)
+    protected function createStyledRowFromValues(array $cellValues, $rowStyle = null)
     {
         return WriterEntityFactory::createRowFromArray($cellValues, $rowStyle);
     }

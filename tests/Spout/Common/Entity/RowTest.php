@@ -33,6 +33,19 @@ class RowTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
+    public function testConstructor()
+    {
+        $this->assertInstanceOf(Style::class, ((new Row([], null))->getStyle()));
+
+        $style = new Style();
+        $this->assertEquals($style, (new Row([], $style))->getStyle());
+
+        $this->assertNull(((new Row([], false))->getStyle()));
+    }
+
+    /**
+     * @return void
+     */
     public function testSetCells()
     {
         $row = new Row([], null);

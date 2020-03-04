@@ -271,8 +271,13 @@ abstract class WorkbookManagerAbstract implements WorkbookManagerInterface
         $defaultRowStyle = $this->optionsManager->getOption(Options::DEFAULT_ROW_STYLE);
 
         if ($defaultRowStyle !== null) {
-            $mergedStyle = $this->styleMerger->merge($row->getStyle(), $defaultRowStyle);
-            $row->setStyle($mergedStyle);
+            if($row->getStyle() !== null){
+                $mergedStyle = $this->styleMerger->merge($row->getStyle(), $defaultRowStyle);
+                $row->setStyle($mergedStyle);
+            }
+            else{
+                $row->setStyle($defaultRowStyle);
+            }
         }
     }
 

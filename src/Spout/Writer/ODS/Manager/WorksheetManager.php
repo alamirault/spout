@@ -157,31 +157,39 @@ class WorksheetManager implements WorksheetManagerInterface
      */
     private function applyStyleAndGetCellXML(Cell $cell, Style $rowStyle, $currentCellIndex, $nextCellIndex)
     {
-        // Apply row and extra styles
-        $mergedCellAndRowStyle = $this->styleMerger->merge($cell->getStyle(), $rowStyle);
-        $cell->setStyle($mergedCellAndRowStyle);
-        $newCellStyle = $this->styleManager->applyExtraStylesIfNeeded($cell);
-
-        $registeredStyle = $this->styleManager->registerStyle($newCellStyle);
-        $styleIndex = $registeredStyle->getId() + 1; // 1-based
-
         $numTimesValueRepeated = ($nextCellIndex - $currentCellIndex);
+        if(!\is_null($cell->getStyle())) {
+            // Apply row and extra styles
+            $mergedCellAndRowStyle = $this->styleMerger->merge($cell->getStyle(), $rowStyle);
+            $cell->setStyle($mergedCellAndRowStyle);
+            $newCellStyle = $this->styleManager->applyExtraStylesIfNeeded($cell);
 
-        return $this->getCellXML($cell, $styleIndex, $numTimesValueRepeated);
+            $registeredStyle = $this->styleManager->registerStyle($newCellStyle);
+            $styleIndex = $registeredStyle->getId() + 1; // 1-based
+
+            return $this->getCellXML($cell, $styleIndex, $numTimesValueRepeated);
+        }
+
+        return $this->getCellXML($cell, null, $numTimesValueRepeated);
     }
 
     /**
      * Returns the cell XML content, given its value.
      *
-     * @param Cell $cell The cell to be written
-     * @param int $styleIndex Index of the used style
-     * @param int $numTimesValueRepeated Number of times the value is consecutively repeated
+     * @param Cell     $cell The cell to be written
+     * @param int|null $styleIndex Index of the used style
+     * @param int      $numTimesValueRepeated Number of times the value is consecutively repeated
      * @throws InvalidArgumentException If a cell value's type is not supported
      * @return string The cell XML content
      */
     private function getCellXML(Cell $cell, $styleIndex, $numTimesValueRepeated)
     {
-        $data = '<table:table-cell table:style-name="ce' . $styleIndex . '"';
+        if(\is_null($styleIndex)){
+            $data = '<table:table-cell';
+        }
+        else{
+            $data = '<table:table-cell table:style-name="ce' . $styleIndex . '"';
+        }
 
         if ($numTimesValueRepeated !== 1) {
             $data .= ' table:number-columns-repeated="' . $numTimesValueRepeated . '"';

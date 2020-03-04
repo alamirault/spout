@@ -2,6 +2,7 @@
 
 namespace Box\Spout\Writer\XLSX;
 
+use Box\Spout\Common\Entity\Style\Style;
 use Box\Spout\TestUsingResource;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Box\Spout\Writer\Common\Entity\Sheet;
@@ -95,9 +96,10 @@ class SheetTest extends TestCase
     /**
      * @param string $fileName
      * @param string $sheetName
+     * @param Style|null|bool $rowStyle
      * @return Sheet
      */
-    private function writeDataToSheetWithCustomName($fileName, $sheetName)
+    private function writeDataToSheetWithCustomName($fileName, $sheetName, $rowStyle = null)
     {
         $this->createGeneratedFolderIfNeeded($fileName);
         $resourcePath = $this->getGeneratedResourcePath($fileName);
@@ -108,7 +110,7 @@ class SheetTest extends TestCase
         $sheet = $writer->getCurrentSheet();
         $sheet->setName($sheetName);
 
-        $writer->addRow($this->createRowFromValues(['xlsx--11', 'xlsx--12']));
+        $writer->addRow($this->createRowFromValues(['xlsx--11', 'xlsx--12'], $rowStyle));
         $writer->close();
 
         return $sheet;

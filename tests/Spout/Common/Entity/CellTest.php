@@ -2,6 +2,7 @@
 
 namespace Box\Spout\Common\Entity;
 
+use Box\Spout\Common\Entity\Style\Style;
 use PHPUnit\Framework\TestCase;
 
 class CellTest extends TestCase
@@ -12,6 +13,19 @@ class CellTest extends TestCase
     public function testValidInstance()
     {
         $this->assertInstanceOf(Cell::class, new Cell('cell'));
+    }
+
+    /**
+     * @return void
+     */
+    public function testConstructor()
+    {
+        $this->assertInstanceOf(Style::class, ((new Cell(0))->getStyle()));
+
+        $style = new Style();
+        $this->assertEquals($style, (new Cell(0, $style))->getStyle());
+
+        $this->assertNull(((new Cell(0, false))->getStyle()));
     }
 
     /**
